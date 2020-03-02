@@ -50,7 +50,7 @@ class BoxAnnotator(cozmo.annotate.Annotator):
 
 
 async def run(robot: cozmo.robot.Robot):
-
+    robot.set_head_angle(0, in_parallel = True)
     robot.world.image_annotator.annotation_enabled = False
     robot.world.image_annotator.add_annotator('box', BoxAnnotator)
 
@@ -74,13 +74,19 @@ async def run(robot: cozmo.robot.Robot):
 
                 #find the cube
                 cube = find_cube(image, YELLOW_LOWER, YELLOW_UPPER)
+                print('cube')
                 print(cube)
                 BoxAnnotator.cube = cube
-
+                
                 ################################################################
                 # Todo: Add Motion Here
                 ################################################################
-
+                speed = 40
+                if cube == None:
+                    robot.drive_wheels(speed, -speed)
+                if cube != None:
+                    robot.drive_wheels(speed, speed)
+                    
 
 
 
